@@ -199,7 +199,7 @@ events:
   Id: 20
   Datum: 27-30.8
   Club: Brahe 
-  Kartlink: 
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7062300.0073523745&e=285663.85312089237&title=SJ%2FRJ%2027.-31.8.2025&desc=&zoom=9&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
   Livelox: 
   Evenemang:
     Bild: images/Jbb_logo.png
