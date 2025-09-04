@@ -3,8 +3,8 @@ events:
 - Plats: Fränsviken 
   Id: 1
   Datum: 9.9
-  Club: Kronan
-  Kartlink: ""
+  Club: Brahe
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7085470.969569712&e=292345.62795851013&title=Nattcup%209.9.%20%2B%20SJ%2FRJ%2010.-14.9.&desc=&zoom=9&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
   Description: ""
 - Plats: Lappfors
   Club: Falken
