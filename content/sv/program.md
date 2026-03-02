@@ -1,13 +1,13 @@
 ---
 title: "Program"
-date: 2025-02-01T10:16:28+02:00
+date: 2026-02-01T10:16:28+02:00
 type: page
 ---
 
 # Program - Skärmjakten 2025
    
 
-{{< program "2025" >}}
+{{< program "2026" >}}
 
 
 # Arrangörer

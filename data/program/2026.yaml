@@ -1,0 +1,243 @@
+year: "2026"
+events:
+- Plats: 
+  Id: 1
+  Datum: 15-19.4
+  Club: Vestersundsby
+  Kartlink: ""
+  Livelox: ""
+  Vagvisning:
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 2
+  Datum: 22-26.4
+  Club: Falken
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 3
+  Datum: 29.4-3.5
+  Club: Kortesjärvi
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 4
+  Datum: 6-10.5
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 5
+  Datum: 13-17.5
+  Club: Falken
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 6
+  Datum: 20-24.5
+  Club: Brahe 
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 7
+  Datum: 27-31.5
+  Club: Minken
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 8
+  Datum: 3-7.6
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 9
+  Datum: 10-14.6
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 10
+  Datum: 17-21.6
+  Club: Minken 
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 12
+  Datum: 24-28.6
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 12
+  Datum: 1-5.7
+  Club: Falken NOK
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 13
+  Datum: 8-12.7
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 14
+  Datum: 15-19.7
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 15
+  Datum: 22-26.7
+  Club: Kvarkentrio
+  Livelox: ""
+  Kartlink: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 16
+  Datum: 29.7-2.8
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 17
+  Datum: 5-9.8
+  Club: Östanpå
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 18
+  Datum: 12-16.8
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 19
+  Datum: 19-23.8
+  Club: Minken
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 20
+  Datum: 26-30.8
+  Club: Brahe 
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
+- Plats: 
+  Id: 21
+  Datum: 2-6.9
+  Club: Falken 
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: 
+- Plats: 
+  Id: 22
+  Datum: 9-13.9
+  Club: Brahe
+  Kartlink: ""
+  Livelox: ""
+  Evenemang: 
+    Bild: 
+    Link: 
+  Description: "Start 16:30 - 18:30"
+- Plats: 
+  Id: 23
+  Datum: 16-20.9
+  Club: Minken
+  Kartlink: ""
+  Livelox: 
+  Evenemang:
+    Bild: 
+    Link: 
+  Description: "Start 16:30 - 18:00"
+- Plats: 
+  Id: 24
+  Datum: 23-27.9
+  Club: Falken
+  Kartlink: ""
+  Livelox: ""
+  Evenemang:
+    Bild: 
+    Link: 
+  Description:
