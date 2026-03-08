@@ -114,7 +114,7 @@ events:
 - Plats: 
   Id: 12
   Datum: 1-5.7
-  Club: Falken NOK
+  Club: Falken
   Kartlink: ""
   Livelox: ""
   Evenemang:
@@ -144,7 +144,7 @@ events:
 - Plats: 
   Id: 15
   Datum: 22-26.7
-  Club: Kvarkentrio
+  Club: Falken 
   Livelox: ""
   Kartlink: ""
   Evenemang:
