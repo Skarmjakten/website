@@ -1,9 +1,9 @@
 year: "2026"
 events:
-- Plats: 
+- Plats: Vestersundsby
   Id: 1
   Datum: 15-19.4
-  Club: Vestersundsby
+  Club: Brahe 
   Kartlink: ""
   Livelox: ""
   Vagvisning:
@@ -11,7 +11,7 @@ events:
     Bild: 
     Link: 
   Description: 
-- Plats: 
+- Plats: Ytteresse 
   Id: 2
   Datum: 22-26.4
   Club: Falken
@@ -24,7 +24,7 @@ events:
 - Plats: 
   Id: 3
   Datum: 29.4-3.5
-  Club: Kortesjärvi
+  Club: Minken 
   Kartlink: ""
   Livelox: ""
   Evenemang:

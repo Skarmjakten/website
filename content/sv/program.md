@@ -4,7 +4,7 @@ date: 2026-02-01T10:16:28+02:00
 type: page
 ---
 
-# Program - Skärmjakten 2025
+# Program - Skärmjakten 2026
    
 
 {{< program "2026" >}}
