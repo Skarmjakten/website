@@ -41,7 +41,7 @@ events:
     Bild: 
     Link: 
   Description:
-- Plats: 
+- Plats: Norrskogen, Lepplax
   Id: 5
   Datum: 13-17.5
   Club: Falken
@@ -111,7 +111,7 @@ events:
     Bild: 
     Link: 
   Description:
-- Plats: 
+- Plats: Långskogen
   Id: 12
   Datum: 1-5.7
   Club: Falken
@@ -141,7 +141,7 @@ events:
     Bild: 
     Link: 
   Description: 
-- Plats: 
+- Plats: Trumbacken, Esse 
   Id: 15
   Datum: 22-26.7
   Club: Falken 
@@ -161,10 +161,10 @@ events:
     Bild: 
     Link: 
   Description:
-- Plats: 
+- Plats: Östanpå
   Id: 17
   Datum: 5-9.8
-  Club: Östanpå
+  Club: Piehi
   Kartlink: ""
   Livelox: ""
   Evenemang:
@@ -201,7 +201,7 @@ events:
     Bild: 
     Link: 
   Description:
-- Plats: 
+- Plats: Slätbacka, Forsby
   Id: 21
   Datum: 2-6.9
   Club: Falken 
@@ -231,7 +231,7 @@ events:
     Bild: 
     Link: 
   Description: "Start 16:30 - 18:00"
-- Plats: 
+- Plats: Sisbacka, Purmo
   Id: 24
   Datum: 23-27.9
   Club: Falken
