@@ -21,7 +21,7 @@ events:
     Bild: 
     Link: 
   Description: 
-- Plats: 
+- Plats: Ransvik 
   Id: 3
   Datum: 29.4-3.5
   Club: Minken 
@@ -61,7 +61,7 @@ events:
     Bild: 
     Link: 
   Description:
-- Plats: 
+- Plats: Kovjoki 
   Id: 7
   Datum: 27-31.5
   Club: Minken
@@ -91,7 +91,7 @@ events:
     Bild: 
     Link: 
   Description: 
-- Plats: 
+- Plats: Monå
   Id: 10
   Datum: 17-21.6
   Club: Minken 
@@ -181,7 +181,7 @@ events:
     Bild: 
     Link: 
   Description: 
-- Plats: 
+- Plats: Andrasjön
   Id: 19
   Datum: 19-23.8
   Club: Minken
@@ -221,7 +221,7 @@ events:
     Bild: 
     Link: 
   Description: "Start 16:30 - 18:30"
-- Plats: 
+- Plats: Stjärnhallen
   Id: 23
   Datum: 16-20.9
   Club: Minken
