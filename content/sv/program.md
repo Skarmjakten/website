@@ -24,10 +24,11 @@ Onsdagar kl 17-19 med tidtagning, självservice torsdag till söndag kväll kl 1
 
 # Avgift 
 
-Över 16 år 6 €/gång. 
+Över 16 år 7 €/gång (Obs!). 
 
 ## Betalnings alternativ
 
+* Kontant
 * E-passis Sporttipassi  (mobilbetalning via app) kan användas. Sök upp "Skärmjakten/Rastijahti (59026).
 * Till skärmjaktens gemensamma bankkonto, FI10 5567 0720 1925 11. Vänligen använd referens 2202 (för Brahes arr), 3311 (Falken), 4433 (Minken) och 5005 (PieHi).
 * MobilePay
