@@ -26,7 +26,7 @@ Onsdagar kl 17-19 med tidtagning, självservice torsdag till söndag kväll kl 1
 
 Över 16 år 7 €/gång (Obs!). 
 
-## Betalnings alternativ
+## Betalningsalternativ
 
 * Kontant
 * E-passis Sporttipassi  (mobilbetalning via app) kan användas. Sök upp "Skärmjakten/Rastijahti (59026).
