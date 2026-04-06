@@ -30,7 +30,7 @@ events:
   Evenemang:
     Bild: 
     Link: 
-  Description: 
+  Description: "Suunnistajan Kauppa på plats/paikalla."
 - Plats: Kackur
   Id: 4
   Datum: 6-10.5
@@ -60,7 +60,7 @@ events:
   Evenemang:
     Bild: 
     Link: 
-  Description:
+  Description: "Suunnistajan Kauppa på plats/paikalla"
 - Plats: Kovjoki 
   Id: 7
   Datum: 27-31.5
