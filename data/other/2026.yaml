@@ -1,0 +1,26 @@
+year: "2026"
+events:
+- Plats: 
+  Id: 1
+  Datum: 8.9
+  Club: Brahe
+  Kartlink: 
+  Description: 
+- Plats: 
+  Club: Minken
+  Datum: 15.9
+  Description: 
+  Kartlink: 
+  Id: 2
+- Plats: 
+  Club: Kronan 
+  Datum: 22.9
+  Id: 3
+  Kartlink: 
+  Description: 
+- Plats: 
+  Id: 4
+  Datum: 29.9
+  Club: KoS
+  Kartlink: 
+  Description: 
