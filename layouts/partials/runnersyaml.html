@@ -1,100 +1,98 @@
 
 {{ $y := (.Get 0) }}
 {{ $year := printf "%s%s" "stat" $y }}
-{{ i18n "starter" }}: {{ (index $.Site.Data.stats $year).totalStarts }}
-
+{{ $stats := (index $.Site.Data.stats $year) }}
 {{ $program := (index $.Site.Data.program $y) }}
-<canvas id="runners" width="400" height="200"></canvas>
-  <script>
 
-    var ctx = document.getElementById('runners');
-    var myChart = new Chart(ctx, {
-      type: 'horizontalBar',
-  data: {
-            labels: [
-                  {{ range (index $.Site.Data.stats $year).courses }}
-           "{{ .name }}",
-                  {{ end }}
-              ],
-    datasets: [{
-          label: '# {{ i18n "runner" }}',
-                  data: [
-                  {{ range (index $.Site.Data.stats $year).courses }}
-               "{{ .starts }}",
-                  {{ end }}
-                  ],
-      backgroundColor: function(context) {
-            var index = context.dataIndex;
-            var value = context.dataset.data[index];
-        return value > 20 ? 'rgba(255,99,132,0.2)' :  // draw negative values in red
-          value > 10 ? 'rgba(54, 162, 235, 0.2)':
-          value > 5 ? 'rgba(255, 206, 86, 0.2)':
-          value > 2 ? 'rgba(75, 192, 192, 0.2)':
-          'rgba(153, 102, 255, 0.2)';
-      },
-      borderWidth: 1
+<div class="stats-summary">
+  <p><strong>{{ i18n "starter" }} {{ $y }}:</strong> {{ $stats.totalStarts }}</p>
+</div>
 
-    }]
-
-  },
-  options: {
-    offset: true,
-    scales: {
-      xAxes: [{
-        ticks: {
-                min: 0,
-                stepSize: 1
-            }
-      }]
-    }
-  }
-});
-  </script>
-
-
-<canvas id="events" width="400" height="250"></canvas>
-  <script>
-
-    var ctx = document.getElementById('events');
-    var myChart = new Chart(ctx, {
+<h4>{{ i18n "runner" }} per bana</h4>
+<canvas id="runners" style="max-height:300px;"></canvas>
+<script>
+  (function() {
+    var courseColors = {
+      'A': 'rgba(220, 53, 69, 0.75)',
+      'B': 'rgba(253, 126, 20, 0.75)',
+      'C': 'rgba(40, 167, 69, 0.75)',
+      'D': 'rgba(0, 123, 255, 0.75)',
+      'E': 'rgba(111, 66, 193, 0.75)',
+      'F': 'rgba(108, 117, 125, 0.75)',
+      'G': 'rgba(23, 162, 184, 0.75)',
+      'H': 'rgba(255, 193, 7, 0.75)'
+    };
+    var courseLabels = [{{ range $stats.courses }}"{{ .name }}",{{ end }}];
+    var courseData = [{{ range $stats.courses }}{{ .starts }},{{ end }}];
+    var courseBg = courseLabels.map(function(l) {
+      return courseColors[l] || 'rgba(173, 181, 189, 0.75)';
+    });
+    new Chart(document.getElementById('runners'), {
       type: 'horizontalBar',
       data: {
-            labels: [
-                  {{ range $i,$r := $program.events }}
-                  "{{ $r.Plats }} ",
-                  {{ end }}
-              ],
-    datasets: [{
-                  label: '# {{ i18n "runner" }}',
-                  data: [
-                  {{ range (index $.Site.Data.stats $year).events }}
-               "{{ .starts }}",
-                  {{ end }}
-                  ],
-      backgroundColor: function(context) {
-            var index = context.dataIndex;
-            var value = context.dataset.data[index];
-        return value > 20 ? 'rgba(255,99,132,0.2)' :  // draw negative values in red
-          value > 10 ? 'rgba(54, 162, 235, 0.2)':
-          value > 5 ? 'rgba(255, 206, 86, 0.2)':
-          value > 2 ? 'rgba(75, 192, 192, 0.2)':
-          'rgba(153, 102, 255, 0.2)';
+        labels: courseLabels,
+        datasets: [{
+          label: '{{ i18n "runner" }}',
+          data: courseData,
+          backgroundColor: courseBg,
+          borderColor: courseBg.map(function(c) { return c.replace('0.75', '1'); }),
+          borderWidth: 1
+        }]
       },
-      borderWidth: 1
+      options: {
+        responsive: true,
+        legend: { display: false },
+        title: { display: false },
+        scales: {
+          xAxes: [{ ticks: { beginAtZero: true }, scaleLabel: { display: true, labelString: '{{ i18n "runner" }}' } }],
+          yAxes: [{ ticks: { fontSize: 14 } }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(item) { return ' ' + item.xLabel + ' {{ i18n "runner" }}'; }
+          }
+        }
+      }
+    });
+  })();
+</script>
 
-    }]
-
-  },
-  options: {
-    offset: true,
-    scales: {
-      xAxes: [{
-        ticks: {
-                min: 0,
-                stepSize: 1
-            }
-      }]
-    }
-  }
-});
-  </script>
+<h4>{{ i18n "runner" }} per deltävling</h4>
+<canvas id="events" style="max-height:600px;"></canvas>
+<script>
+  (function() {
+    var eventLabels = [{{ range $program.events }}"{{ .Plats }}",{{ end }}];
+    var eventData = [{{ range $stats.events }}{{ .starts }},{{ end }}];
+    var eventAvg = eventData.reduce(function(a, b) { return a + b; }, 0) / eventData.length;
+    var eventBg = eventData.map(function(v) {
+      return v >= eventAvg ? 'rgba(0, 123, 255, 0.65)' : 'rgba(0, 123, 255, 0.35)';
+    });
+    new Chart(document.getElementById('events'), {
+      type: 'horizontalBar',
+      data: {
+        labels: eventLabels,
+        datasets: [{
+          label: '{{ i18n "runner" }}',
+          data: eventData,
+          backgroundColor: eventBg,
+          borderColor: 'rgba(0, 123, 255, 0.9)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: { display: false },
+        title: { display: false },
+        scales: {
+          xAxes: [{ ticks: { beginAtZero: true }, scaleLabel: { display: true, labelString: '{{ i18n "runner" }}' } }],
+          yAxes: [{ ticks: { fontSize: 13 } }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(item) { return ' ' + item.xLabel + ' {{ i18n "runner" }}'; }
+          }
+        }
+      }
+    });
+  })();
+</script>
