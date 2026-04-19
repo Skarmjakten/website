@@ -37,8 +37,10 @@ jobs:
           && chmod +x ${{ runner.temp }}/statistik
 
       - name: Build statistik
+        id: build
         run: |
           YEAR=$(date +%Y)
+          echo "year=${YEAR}" >> "$GITHUB_OUTPUT"
           ${{ runner.temp }}/statistik "$YEAR"
           if [ -f result.json ]; then
             mv result.json "data/stats/stat${YEAR}.json"
@@ -50,7 +52,7 @@ jobs:
 
       - name: Commit updated stats
         run: |
-          YEAR=$(date +%Y)
+          YEAR=${{ steps.build.outputs.year }}
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "data/stats/stat${YEAR}.json"
