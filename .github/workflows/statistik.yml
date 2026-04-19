@@ -1,23 +1,21 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
+# Workflow to update statistics from result files every Thursday night
 name: Build statistik
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["test"]
+  # Runs every Thursday at 23:00 UTC
+  schedule:
+    - cron: '0 23 * * 4'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets permissions to allow committing updated stats back to the repo
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Allow one concurrent deployment
+# Allow one concurrent run
 concurrency:
-  group: "pages"
+  group: "statistik"
   cancel-in-progress: true
 
 # Default to bash
@@ -26,24 +24,41 @@ defaults:
     shell: bash
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.108.0
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install statistik CLI
         run: |
-          wget -O ${{ runner.temp }}/statistik https://github.com/Skarmjakten/statistik/releases/download/v0.1/statistik \
+          wget -O ${{ runner.temp }}/statistik \
+            https://github.com/Skarmjakten/statistik/releases/download/v0.1/statistik \
           && chmod +x ${{ runner.temp }}/statistik
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
+
       - name: Build statistik
-        env:
-          # For maximum backward compatibility with Hugo modules
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
+        id: build
         run: |
-          ${{runner.temp}}/statistik 2022
+          YEAR=$(date +%Y)
+          echo "year=${YEAR}" >> "$GITHUB_OUTPUT"
+          ${{ runner.temp }}/statistik "$YEAR"
+          if [ -f result.json ]; then
+            mv result.json "data/stats/stat${YEAR}.json"
+            echo "Updated data/stats/stat${YEAR}.json"
+          else
+            echo "No result.json produced – skipping commit"
+            exit 1
+          fi
+
+      - name: Commit updated stats
+        run: |
+          YEAR=${{ steps.build.outputs.year }}
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "data/stats/stat${YEAR}.json"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update statistik for ${YEAR} [skip ci]"
+            git push
+          fi
