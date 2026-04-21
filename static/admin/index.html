@@ -361,7 +361,8 @@
       }
 
       events.forEach(function (evt, i) {
-        var num = ('0' + (i + 1)).slice(-2);
+        var n = i + 1;
+        var num = n < 10 ? '0' + n : '' + n;
         var opt = document.createElement('option');
         opt.value = num;
         var label = num + '. ' + (evt.Datum || '') + ' – ' + (evt.Plats || '');
