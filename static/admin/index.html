@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin – Skärmjakten</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+        crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+  <style>
+    body { background: #f0f4f8; }
+    .admin-wrap { max-width: 720px; margin: 40px auto 60px; }
+    .panel-heading h3 { margin: 0; font-size: 18px; }
+    .help-block code { font-size: 12px; color: #555; }
+    #section-loading { padding: 20px 0; color: #777; }
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #aaa;
+      border-top-color: #333;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Skärmjakten</a>
+    </div>
+    <p class="navbar-text navbar-right" style="margin-top:18px">
+      <a href="/" class="navbar-link">← Tillbaka till sidan</a>
+    </p>
+  </div>
+</nav>
+
+<div class="container admin-wrap">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Uppladdning av resultat</h3>
+    </div>
+    <div class="panel-body">
+
+      <!-- ── Login ──────────────────────────────────────────────── -->
+      <div id="section-login">
+        <p>
+          Logga in med ditt GitHub-konto. Endast behöriga bidragsgivare
+          (collaborators) till repot <strong>Skarmjakten/website</strong>
+          har tillgång.
+        </p>
+        <div class="alert alert-danger" id="login-error" style="display:none"></div>
+        <a id="btn-login" href="/api/github-oauth" class="btn btn-default">
+          <!-- GitHub mark icon -->
+          <svg height="18" width="18" viewBox="0 0 16 16"
+               style="fill:currentColor;vertical-align:middle;margin-right:6px"
+               aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                     0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                     -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
+                     2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                     -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0
+                     1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82
+                     1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01
+                     1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          Logga in med GitHub
+        </a>
+      </div>
+
+      <!-- ── Not authorized ─────────────────────────────────────── -->
+      <div id="section-unauthorized" style="display:none">
+        <div class="alert alert-danger">
+          <strong>Ej behörig.</strong>
+          GitHub-kontot <strong id="unauth-username"></strong> är inte
+          registrerat som bidragsgivare till repot. Kontakta en administratör.
+        </div>
+        <button id="btn-logout-unauth" class="btn btn-default btn-sm">Logga ut</button>
+      </div>
+
+      <!-- ── Loading indicator ──────────────────────────────────── -->
+      <div id="section-loading" style="display:none">
+        <span class="spinner"></span> Autentiserar…
+      </div>
+
+      <!-- ── Upload form ────────────────────────────────────────── -->
+      <div id="section-upload" style="display:none">
+        <p class="text-muted" style="margin-bottom:16px">
+          Inloggad som <strong id="user-display"></strong>
+          <button id="btn-logout" class="btn btn-link btn-xs"
+                  style="padding:0 0 2px 8px">Logga ut</button>
+        </p>
+        <hr style="margin-top:0">
+
+        <form id="upload-form" novalidate>
+
+          <!-- Year + type row -->
+          <div class="row">
+            <div class="col-xs-4 col-sm-3">
+              <div class="form-group">
+                <label for="sel-year">År</label>
+                <select id="sel-year" class="form-control"></select>
+              </div>
+            </div>
+            <div class="col-xs-8 col-sm-9">
+              <div class="form-group">
+                <label for="sel-type">Tävlingstyp</label>
+                <select id="sel-type" class="form-control">
+                  <option value="program">Skärmjakten (ordinarie)</option>
+                  <option value="other">Övriga tävlingar (nattcup m.m.)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event -->
+          <div class="form-group">
+            <label for="sel-event">Omgång / Tävling</label>
+            <select id="sel-event" class="form-control">
+              <option disabled selected>Välj år och typ ovan…</option>
+            </select>
+          </div>
+
+          <!-- Resultat file -->
+          <div class="form-group">
+            <label>
+              Resultatfil
+              <small class="text-muted">(*_res.html)</small>
+            </label>
+            <input type="file" id="file-res" accept=".html,.htm">
+            <p class="help-block" id="path-res" style="margin-bottom:0"></p>
+          </div>
+
+          <!-- Mellantider file -->
+          <div class="form-group">
+            <label>
+              Mellantiderfil
+              <small class="text-muted">(*_mel.html)</small>
+            </label>
+            <input type="file" id="file-mel" accept=".html,.htm">
+            <p class="help-block" id="path-mel" style="margin-bottom:0"></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="btn-upload">
+            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+            Ladda upp och publicera
+          </button>
+        </form>
+
+        <div id="status-msg" style="margin-top:18px"></div>
+      </div>
+      <!-- /section-upload -->
+
+    </div><!-- /panel-body -->
+  </div><!-- /panel -->
+</div><!-- /container -->
+
+<script>
+(function () {
+  'use strict';
+
+  var REPO_OWNER  = 'Skarmjakten';
+  var REPO_NAME   = 'website';
+  var REPO_BRANCH = 'main';
+
+  var githubToken = null;
+  var currentUser = null;
+
+  // ── DOM helpers ──────────────────────────────────────────────────────────────
+
+  function showSection(name) {
+    ['login', 'unauthorized', 'loading', 'upload'].forEach(function (s) {
+      var el = document.getElementById('section-' + s);
+      el.style.display = (s === name) ? '' : 'none';
+    });
+  }
+
+  function showStatus(type, html) {
+    document.getElementById('status-msg').innerHTML =
+      '<div class="alert alert-' + type + '">' + html + '</div>';
+  }
+
+  function clearStatus() {
+    document.getElementById('status-msg').innerHTML = '';
+  }
+
+  // ── Auth helpers ─────────────────────────────────────────────────────────────
+
+  function logout() {
+    sessionStorage.removeItem('gh_token');
+    githubToken = null;
+    currentUser = null;
+    showSection('login');
+  }
+
+  function githubFetch(path, options) {
+    options = options || {};
+    var headers = Object.assign(
+      {
+        Authorization: 'token ' + githubToken,
+        Accept: 'application/vnd.github.v3+json',
+      },
+      options.headers || {}
+    );
+    return fetch('https://api.github.com' + path, Object.assign({}, options, { headers: headers }));
+  }
+
+  /**
+   * Returns true when the authenticated user has push access to the repo.
+   * Works with `public_repo` OAuth scope.
+   */
+  function checkAuthorization() {
+    return githubFetch('/repos/' + REPO_OWNER + '/' + REPO_NAME)
+      .then(function (res) {
+        if (!res.ok) return false;
+        return res.json().then(function (data) {
+          return !!(data.permissions && data.permissions.push);
+        });
+      })
+      .catch(function () { return false; });
+  }
+
+  // ── Program data ─────────────────────────────────────────────────────────────
+
+  function loadEvents(year, type) {
+    var path = (type === 'program')
+      ? 'data/program/' + year + '.yaml'
+      : 'data/other/' + year + '.yaml';
+    var url = 'https://raw.githubusercontent.com/' +
+              REPO_OWNER + '/' + REPO_NAME + '/' + REPO_BRANCH + '/' + path;
+
+    return fetch(url).then(function (res) {
+      if (!res.ok) return [];
+      return res.text().then(function (text) {
+        try {
+          var data = jsyaml.load(text);
+          return (data && data.events) ? data.events : [];
+        } catch (e) {
+          return [];
+        }
+      });
+    }).catch(function () { return []; });
+  }
+
+  function populateYears() {
+    var sel = document.getElementById('sel-year');
+    var current = new Date().getFullYear();
+    sel.innerHTML = '';
+    for (var y = current + 1; y >= current - 1; y--) {
+      var opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      if (y === current) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  }
+
+  function updateFilePaths() {
+    var year  = document.getElementById('sel-year').value;
+    var type  = document.getElementById('sel-type').value;
+    var selEl = document.getElementById('sel-event');
+    var num   = selEl.value;
+
+    if (!num || !num.match(/^\d+$/)) {
+      document.getElementById('path-res').innerHTML = '';
+      document.getElementById('path-mel').innerHTML = '';
+      return;
+    }
+
+    var prefix = (type === 'other') ? 'other_' : '';
+    document.getElementById('path-res').innerHTML =
+      'Sparas som: <code>resultat/' + year + '/' + prefix + num + '_res.html</code>';
+    document.getElementById('path-mel').innerHTML =
+      'Sparas som: <code>resultat/' + year + '/' + prefix + num + '_mel.html</code>';
+  }
+
+  function populateEvents() {
+    var year = document.getElementById('sel-year').value;
+    var type = document.getElementById('sel-type').value;
+    var sel  = document.getElementById('sel-event');
+
+    sel.innerHTML = '<option disabled selected>Laddar tävlingar…</option>';
+    clearStatus();
+
+    return loadEvents(year, type).then(function (events) {
+      sel.innerHTML = '';
+
+      if (!events || events.length === 0) {
+        sel.innerHTML = '<option disabled selected>Inga tävlingar hittades för ' + year + '</option>';
+        updateFilePaths();
+        return;
+      }
+
+      events.forEach(function (evt, i) {
+        var num = String(i + 1).padStart(2, '0');
+        var opt = document.createElement('option');
+        opt.value = num;
+        var label = num + '. ' + (evt.Datum || '') + ' – ' + (evt.Plats || '');
+        if (evt.Club) label += ' (' + evt.Club + ')';
+        opt.textContent = label;
+        sel.appendChild(opt);
+      });
+
+      updateFilePaths();
+    });
+  }
+
+  // ── GitHub file commit ───────────────────────────────────────────────────────
+
+  function fileToBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        // result is "data:<mime>;base64,<content>"
+        var base64 = reader.result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = function () { reject(new Error('Kunde inte läsa filen.')); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function getFileSha(repoPath) {
+    return githubFetch('/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + repoPath)
+      .then(function (res) {
+        if (res.ok) return res.json().then(function (d) { return d.sha; });
+        return null;
+      })
+      .catch(function () { return null; });
+  }
+
+  function commitFile(repoPath, contentBase64, message) {
+    return getFileSha(repoPath).then(function (sha) {
+      var body = {
+        message: message,
+        content: contentBase64,
+        branch: REPO_BRANCH,
+      };
+      if (sha) body.sha = sha;
+
+      return githubFetch(
+        '/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + repoPath,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (err) {
+          throw new Error(err.message || 'HTTP ' + res.status);
+        });
+      }
+      return res.json();
+    });
+  }
+
+  // ── Form submit ──────────────────────────────────────────────────────────────
+
+  document.getElementById('upload-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var year     = document.getElementById('sel-year').value;
+    var type     = document.getElementById('sel-type').value;
+    var num      = document.getElementById('sel-event').value;
+    var resFile  = document.getElementById('file-res').files[0];
+    var melFile  = document.getElementById('file-mel').files[0];
+    var selEl    = document.getElementById('sel-event');
+    var eventLabel = selEl.selectedOptions[0]
+      ? selEl.selectedOptions[0].textContent
+      : num;
+
+    if (!num || !num.match(/^\d+$/)) {
+      showStatus('warning', 'Välj en omgång / tävling.');
+      return;
+    }
+    if (!resFile && !melFile) {
+      showStatus('warning', 'Välj minst en fil att ladda upp.');
+      return;
+    }
+
+    var prefix = (type === 'other') ? 'other_' : '';
+    var btn    = document.getElementById('btn-upload');
+    btn.disabled = true;
+    showStatus('info', '<span class="spinner"></span> Laddar upp…');
+
+    var tasks = [];
+
+    if (resFile) {
+      tasks.push(
+        fileToBase64(resFile).then(function (b64) {
+          var path = 'resultat/' + year + '/' + prefix + num + '_res.html';
+          return commitFile(path, b64, 'Resultat: ' + eventLabel + ' (' + year + ')')
+            .then(function () { return '<code>' + path + '</code>'; });
+        })
+      );
+    }
+
+    if (melFile) {
+      tasks.push(
+        fileToBase64(melFile).then(function (b64) {
+          var path = 'resultat/' + year + '/' + prefix + num + '_mel.html';
+          return commitFile(path, b64, 'Mellantider: ' + eventLabel + ' (' + year + ')')
+            .then(function () { return '<code>' + path + '</code>'; });
+        })
+      );
+    }
+
+    Promise.all(tasks)
+      .then(function (paths) {
+        showStatus('success',
+          '<strong>Uppladdning klar!</strong> Följande filer har publicerats:<br>' +
+          paths.join('<br>')
+        );
+        document.getElementById('file-res').value = '';
+        document.getElementById('file-mel').value = '';
+      })
+      .catch(function (err) {
+        showStatus('danger', '<strong>Uppladdning misslyckades:</strong> ' + err.message);
+      })
+      .then(function () {
+        btn.disabled = false;
+      });
+  });
+
+  // ── Event listeners ──────────────────────────────────────────────────────────
+
+  document.getElementById('btn-logout').addEventListener('click', logout);
+  document.getElementById('btn-logout-unauth').addEventListener('click', logout);
+  document.getElementById('sel-year').addEventListener('change', populateEvents);
+  document.getElementById('sel-type').addEventListener('change', populateEvents);
+  document.getElementById('sel-event').addEventListener('change', updateFilePaths);
+
+  // ── Init ─────────────────────────────────────────────────────────────────────
+
+  (function init() {
+    // Extract token from URL fragment (placed there by the OAuth function)
+    var hash  = window.location.hash;
+    var token = null;
+
+    if (hash.indexOf('#token=') === 0) {
+      token = hash.slice(7);
+      // Remove token from browser history so it doesn't linger in the URL bar
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+      sessionStorage.setItem('gh_token', token);
+    } else {
+      token = sessionStorage.getItem('gh_token');
+    }
+
+    // Show OAuth error if redirected back with one
+    var params = new URLSearchParams(window.location.search);
+    var oauthError = params.get('error');
+    if (oauthError) {
+      var el = document.getElementById('login-error');
+      el.textContent = 'Inloggning misslyckades: ' + oauthError;
+      el.style.display = '';
+    }
+
+    if (!token) {
+      showSection('login');
+      return;
+    }
+
+    githubToken = token;
+    showSection('loading');
+
+    // Verify token by fetching the authenticated user
+    fetch('https://api.github.com/user', {
+      headers: { Authorization: 'token ' + githubToken },
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('invalid token');
+        return res.json();
+      })
+      .then(function (user) {
+        currentUser = user;
+        return checkAuthorization();
+      })
+      .then(function (authorized) {
+        if (!authorized) {
+          document.getElementById('unauth-username').textContent =
+            currentUser ? currentUser.login : '';
+          showSection('unauthorized');
+          return;
+        }
+
+        document.getElementById('user-display').textContent = currentUser.login;
+        showSection('upload');
+        populateYears();
+        populateEvents();
+      })
+      .catch(function () {
+        sessionStorage.removeItem('gh_token');
+        showSection('login');
+      });
+  }());
+
+}());
+</script>
+
+</body>
+</html>
