@@ -180,13 +180,62 @@
     });
   }
 
-  function showStatus(type, html) {
-    document.getElementById('status-msg').innerHTML =
-      '<div class="alert alert-' + type + '">' + html + '</div>';
+  /**
+   * Shows a Bootstrap alert in #status-msg.
+   * @param {string} type  - Bootstrap alert type ('success', 'danger', 'warning', 'info')
+   * @param {string|Node} content - Plain text string or a pre-built DOM Node/Fragment.
+   */
+  function showStatus(type, content) {
+    var statusEl = document.getElementById('status-msg');
+    while (statusEl.firstChild) { statusEl.removeChild(statusEl.firstChild); }
+    var div = document.createElement('div');
+    div.className = 'alert alert-' + type;
+    if (typeof content === 'string') {
+      div.textContent = content;
+    } else {
+      div.appendChild(content);
+    }
+    statusEl.appendChild(div);
   }
 
   function clearStatus() {
-    document.getElementById('status-msg').innerHTML = '';
+    var statusEl = document.getElementById('status-msg');
+    while (statusEl.firstChild) { statusEl.removeChild(statusEl.firstChild); }
+  }
+
+  /** Builds a spinner + text node for the "loading" status. */
+  function makeSpinnerMsg(text) {
+    var frag = document.createDocumentFragment();
+    var sp = document.createElement('span');
+    sp.className = 'spinner';
+    frag.appendChild(sp);
+    frag.appendChild(document.createTextNode('\u00a0' + text));
+    return frag;
+  }
+
+  /** Builds the success message with file paths shown in <code> elements. */
+  function makeSuccessMsg(paths) {
+    var frag = document.createDocumentFragment();
+    var strong = document.createElement('strong');
+    strong.textContent = 'Uppladdning klar! Följande filer har publicerats:';
+    frag.appendChild(strong);
+    paths.forEach(function (p) {
+      frag.appendChild(document.createElement('br'));
+      var code = document.createElement('code');
+      code.textContent = p;
+      frag.appendChild(code);
+    });
+    return frag;
+  }
+
+  /** Builds the error message, keeping the error text safe from XSS. */
+  function makeErrorMsg(errMsg) {
+    var frag = document.createDocumentFragment();
+    var strong = document.createElement('strong');
+    strong.textContent = 'Uppladdning misslyckades:';
+    frag.appendChild(strong);
+    frag.appendChild(document.createTextNode(' ' + errMsg));
+    return frag;
   }
 
   // ── Auth helpers ─────────────────────────────────────────────────────────────
@@ -202,7 +251,7 @@
     options = options || {};
     var headers = Object.assign(
       {
-        Authorization: 'token ' + githubToken,
+        Authorization: 'Bearer ' + githubToken,
         Accept: 'application/vnd.github.v3+json',
       },
       options.headers || {}
@@ -250,7 +299,7 @@
   function populateYears() {
     var sel = document.getElementById('sel-year');
     var current = new Date().getFullYear();
-    sel.innerHTML = '';
+    sel.textContent = '';
     for (var y = current + 1; y >= current - 1; y--) {
       var opt = document.createElement('option');
       opt.value = y;
@@ -267,16 +316,22 @@
     var num   = selEl.value;
 
     if (!num || !num.match(/^\d+$/)) {
-      document.getElementById('path-res').innerHTML = '';
-      document.getElementById('path-mel').innerHTML = '';
+      document.getElementById('path-res').textContent = '';
+      document.getElementById('path-mel').textContent = '';
       return;
     }
 
     var prefix = (type === 'other') ? 'other_' : '';
-    document.getElementById('path-res').innerHTML =
-      'Sparas som: <code>resultat/' + year + '/' + prefix + num + '_res.html</code>';
-    document.getElementById('path-mel').innerHTML =
-      'Sparas som: <code>resultat/' + year + '/' + prefix + num + '_mel.html</code>';
+
+    function setPathHint(id, suffix) {
+      var el = document.getElementById(id);
+      el.textContent = 'Sparas som: ';
+      var code = document.createElement('code');
+      code.textContent = 'resultat/' + year + '/' + prefix + num + suffix;
+      el.appendChild(code);
+    }
+    setPathHint('path-res', '_res.html');
+    setPathHint('path-mel', '_mel.html');
   }
 
   function populateEvents() {
@@ -284,20 +339,29 @@
     var type = document.getElementById('sel-type').value;
     var sel  = document.getElementById('sel-event');
 
-    sel.innerHTML = '<option disabled selected>Laddar tävlingar…</option>';
+    var loadingOpt = document.createElement('option');
+    loadingOpt.disabled = true;
+    loadingOpt.selected = true;
+    loadingOpt.textContent = 'Laddar tävlingar\u2026';
+    sel.textContent = '';
+    sel.appendChild(loadingOpt);
     clearStatus();
 
     return loadEvents(year, type).then(function (events) {
-      sel.innerHTML = '';
+      sel.textContent = '';
 
       if (!events || events.length === 0) {
-        sel.innerHTML = '<option disabled selected>Inga tävlingar hittades för ' + year + '</option>';
+        var noOpt = document.createElement('option');
+        noOpt.disabled = true;
+        noOpt.selected = true;
+        noOpt.textContent = 'Inga tävlingar hittades för ' + year;
+        sel.appendChild(noOpt);
         updateFilePaths();
         return;
       }
 
       events.forEach(function (evt, i) {
-        var num = String(i + 1).padStart(2, '0');
+        var num = ('0' + (i + 1)).slice(-2);
         var opt = document.createElement('option');
         opt.value = num;
         var label = num + '. ' + (evt.Datum || '') + ' – ' + (evt.Plats || '');
@@ -388,7 +452,7 @@
     var prefix = (type === 'other') ? 'other_' : '';
     var btn    = document.getElementById('btn-upload');
     btn.disabled = true;
-    showStatus('info', '<span class="spinner"></span> Laddar upp…');
+    showStatus('info', makeSpinnerMsg('Laddar upp…'));
 
     var tasks = [];
 
@@ -397,7 +461,7 @@
         fileToBase64(resFile).then(function (b64) {
           var path = 'resultat/' + year + '/' + prefix + num + '_res.html';
           return commitFile(path, b64, 'Resultat: ' + eventLabel + ' (' + year + ')')
-            .then(function () { return '<code>' + path + '</code>'; });
+            .then(function () { return path; });
         })
       );
     }
@@ -407,22 +471,19 @@
         fileToBase64(melFile).then(function (b64) {
           var path = 'resultat/' + year + '/' + prefix + num + '_mel.html';
           return commitFile(path, b64, 'Mellantider: ' + eventLabel + ' (' + year + ')')
-            .then(function () { return '<code>' + path + '</code>'; });
+            .then(function () { return path; });
         })
       );
     }
 
     Promise.all(tasks)
       .then(function (paths) {
-        showStatus('success',
-          '<strong>Uppladdning klar!</strong> Följande filer har publicerats:<br>' +
-          paths.join('<br>')
-        );
+        showStatus('success', makeSuccessMsg(paths));
         document.getElementById('file-res').value = '';
         document.getElementById('file-mel').value = '';
       })
       .catch(function (err) {
-        showStatus('danger', '<strong>Uppladdning misslyckades:</strong> ' + err.message);
+        showStatus('danger', makeErrorMsg(err.message));
       })
       .then(function () {
         btn.disabled = false;
@@ -472,7 +533,7 @@
 
     // Verify token by fetching the authenticated user
     fetch('https://api.github.com/user', {
-      headers: { Authorization: 'token ' + githubToken },
+      headers: { Authorization: 'Bearer ' + githubToken },
     })
       .then(function (res) {
         if (!res.ok) throw new Error('invalid token');
