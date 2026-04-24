@@ -2,6 +2,17 @@
 publish = "public"
 command = "hugo --gc --minify"
 
+[functions]
+  directory = "netlify/functions"
+
+# Clean URL for the GitHub OAuth serverless function.
+# The GitHub OAuth App callback URL must be set to:
+#   https://skarmjakten.fi/api/github-oauth
+[[redirects]]
+  from = "/api/github-oauth"
+  to   = "/.netlify/functions/github-oauth"
+  status = 200
+
 [context.production.environment]
 HUGO_VERSION = "0.80.0"
 HUGO_ENV = "production"
