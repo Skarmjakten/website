@@ -25,8 +25,8 @@ events:
   Id: 3
   Datum: 29.4-3.5
   Club: Minken 
-  Kartlink: ""
-  Livelox: ""
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7053793.200061961&e=279915.46608831163&title=SJ%2FRJ%2029.4-3.5.2026&desc=&zoom=10&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
+  Livelox: "https://www.livelox.com/Events/Show/187063/Skarmjakten-Ransvik-Rastijahti-"
   Evenemang:
     Bild: 
     Link: 
