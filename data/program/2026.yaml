@@ -59,7 +59,7 @@ events:
   Livelox: ""
   Evenemang:
     Bild: images/Bjh_logo.png
-    Link: 
+    Link: https://bjh.fi/
   Description: "Suunnistajan Kauppa på plats/paikalla"
 - Plats: Kovjoki 
   Id: 7
