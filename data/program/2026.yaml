@@ -65,12 +65,12 @@ events:
   Id: 7
   Datum: 27-31.5
   Club: Minken
-  Kartlink: ""
-  Livelox: ""
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7053655.353564668&e=284114.90895897587&title=SJ%2FRJ%2027-31.5%202026%20%2B%20Ekorrtour%2027.5&desc=&zoom=10&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
+  Livelox: "https://www.livelox.com/Events/Show/190734/Skarmjakten-Ekorrtour-Kovjoki-Rastijahti"
   Evenemang:
     Bild: 
     Link: 
-  Description:
+  Description: "Ekorrtour deltävling 4 18:30-19:00"
 - Plats: Ådö
   Id: 8
   Datum: 3-7.6
