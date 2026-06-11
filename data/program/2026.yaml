@@ -128,8 +128,8 @@ events:
   Kartlink: ""
   Livelox: ""
   Evenemang:
-    Bild: 
-    Link: 
+    Bild: images/Larsmo Kommun_Logo.png
+    Link: https://larsmo.fi 
   Description:
 - Plats: Storsand
   Id: 14
