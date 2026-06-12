@@ -95,8 +95,8 @@ events:
   Id: 10
   Datum: 17-21.6
   Club: Minken 
-  Kartlink: ""
-  Livelox: ""
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7035881.043243056&e=269499.2617631757&title=SJ%2FRJ%2017.-21.6.2026&desc=&zoom=10&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
+  Livelox: "https://www.livelox.com/Events/Show/192676/Skarmjakten-17-6-21-6-2026"
   Evenemang:
     Bild: 
     Link: 
