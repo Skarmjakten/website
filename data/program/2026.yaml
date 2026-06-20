@@ -108,8 +108,8 @@ events:
   Kartlink: ""
   Livelox: ""
   Evenemang:
-    Bild: 
-    Link: 
+    Bild: images/JAKE_Bygg_Logo.png
+    Link: https://www.jakerakennus.fi/sv/
   Description:
 - Plats: Långskogen
   Id: 12
