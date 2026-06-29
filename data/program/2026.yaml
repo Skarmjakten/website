@@ -115,12 +115,12 @@ events:
   Id: 12
   Datum: 1-5.7
   Club: Falken
-  Kartlink: ""
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=sv&share=customMarker&n=7064574.526790871&e=300808.6738496956&title=SJ%201-5.7.2026&desc=Sk%C3%A4rmjakten%20L%C3%A5ngskogen.&zoom=11&layers=W3siaWQiOjMsIm9wYWNpdHkiOjEwMH0seyJpZCI6Miwib3BhY2l0eSI6MTAwfV0-z"
   Livelox: ""
   Evenemang:
     Bild: 
     Link: 
-  Description:
+  Description: Vägv. Kållbyvägen / Opastus Kolpintie
 - Plats: Larsmo sportstuga
   Id: 13
   Datum: 8-12.7
