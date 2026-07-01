@@ -102,7 +102,7 @@ events:
     Link: 
   Description: 
 - Plats: Lussilund
-  Id: 12
+  Id: 11
   Datum: 24-28.6
   Club: Brahe
   Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7065308.648246456&e=284610.893991724&title=SJ%2FRJ%2024.-28.6.2026&desc=&zoom=9&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
@@ -116,7 +116,7 @@ events:
   Datum: 1-5.7
   Club: Falken
   Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=sv&share=customMarker&n=7064574.526790871&e=300808.6738496956&title=SJ%201-5.7.2026&desc=Sk%C3%A4rmjakten%20L%C3%A5ngskogen.&zoom=11&layers=W3siaWQiOjMsIm9wYWNpdHkiOjEwMH0seyJpZCI6Miwib3BhY2l0eSI6MTAwfV0-z"
-  Livelox: ""
+  Livelox: "https://www.livelox.com/Events/Show/195066/Skarmjakten-Langskogen"
   Evenemang:
     Bild: 
     Link: 
