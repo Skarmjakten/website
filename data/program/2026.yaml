@@ -205,12 +205,12 @@ events:
   Id: 21
   Datum: 2-6.9
   Club: Falken 
-  Kartlink: ""
+  Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=sv&share=customMarker&n=7053356.8694610745&e=297444.4326370987&title=Sk%C3%A4rmjakten%20-%20Rastijahti&desc=2-6.9&zoom=12&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
   Livelox: ""
   Evenemang:
     Bild: 
     Link: 
-  Description: 
+  Description: "Suunnistajan kauppa på plats"
 - Plats: Bosund norra
   Id: 22
   Datum: 9-13.9
