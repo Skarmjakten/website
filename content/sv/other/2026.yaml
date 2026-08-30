@@ -1,0 +1,14 @@
+---
+title: "Övriga 2026"
+type: page
+menu:
+  main:
+    identifier: other2026
+    parent: other
+    name: "2026"
+    title: "2026"
+    weight: 1
+---
+
+## Nattcup 2026
+{{< other "2026" >}}
