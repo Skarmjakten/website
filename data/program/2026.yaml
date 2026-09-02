@@ -206,7 +206,7 @@ events:
   Datum: 2-6.9
   Club: Falken 
   Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=sv&share=customMarker&n=7053356.8694610745&e=297444.4326370987&title=Sk%C3%A4rmjakten%20-%20Rastijahti&desc=2-6.9&zoom=12&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
-  Livelox: ""
+  Livelox: "https://www.livelox.com/Events/Show/201011/Skarmjakten-Slatbacka"
   Evenemang:
     Bild: 
     Link: 
@@ -240,4 +240,4 @@ events:
   Evenemang:
     Bild: 
     Link: 
-  Description:
+  Description: "Start 16:30 - 18:00"
