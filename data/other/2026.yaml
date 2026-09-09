@@ -6,10 +6,10 @@ events:
   Club: Brahe
   Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=sv&share=customMarker&n=7084108.652034545&e=294570.68063029484&title=Nattcup%208.9.&desc=&zoom=9&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
   Description: "Start/lähtö 21:00-21:45. Livelox ons/ke jälkeen."
-- Plats: 
+- Plats: Stjärhallen, Nykarleby.
   Club: Minken
   Datum: 15.9
-  Description: 
+  Description: Start/lähtö 20.30-21.15
   Kartlink: "https://asiointi.maanmittauslaitos.fi/karttapaikka/?lang=fi&share=customMarker&n=7051449.606668666&e=276980.58946123923&title=Nattcup%2015.9.2026&desc=&zoom=10&layers=W3siaWQiOjIsIm9wYWNpdHkiOjEwMH1d-z"
   Id: 2
 - Plats: 
