@@ -22,5 +22,5 @@ events:
   Id: 4
   Datum: 29.9
   Club: KoS
-  Kartlink: 
-  Description: 
+  Kartlink: "https://kokkola.asiointi.fi/IMS/?layers=Opaskartta&cp=7098304,23524558&z=2&title=Houraatti"
+  Description: "Lähdöt klo 19:30-20:30"
